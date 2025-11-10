@@ -1,41 +1,60 @@
-// backend/server.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const rateLimit = require('express-rate-limit');
-const cors = require('cors');
+import express from "express";
+import cors from "cors";
+import crypto from "crypto";
+import bodyParser from "body-parser";
 
 const app = express();
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
-// permitir requests do frontend (Vite default: http://localhost:5173)
+// 🧱 Middlewares
 app.use(cors());
+app.use(bodyParser.json());
+app.use(express.json());
 
-// limiter para evitar brute-force
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 10,
-  message: { ok: false, msg: 'Muitas tentativas. Tente novamente mais tarde.' }
+// 🔐 Usuário e senha esperados
+const EXPECTED_USER = "osgiliath";
+
+// Senha verdadeira: Saruman!Faramir?
+// Hash SHA256 gerado a partir dela:
+const EXPECTED_PASS_HASH =
+  "70f4d28be43f37f7da901b6b2060d9a65e391518a362eb8b44cf32a3852f4fd3";
+
+// 🧮 Função pra gerar hash SHA256
+function hashPassword(password) {
+  return crypto.createHash("sha256").update(password).digest("hex");
+}
+
+// 🌐 Endpoint de teste
+app.get("/", (req, res) => {
+  res.json({
+    msg: "Servidor ativo nas Terras Médias 🌍",
+    endpoints: ["/login"],
+  });
 });
-app.use('/login', limiter);
 
-// credencial (somente o username é plain)
-const USERNAME = 'Osgiliath';
-// coloque aqui o hash gerado (veja abaixo como gerar). NÃO commit o .env com senha real.
-const PASSWORD_HASH = process.env.PASSWORD_HASH || '$2a$10$EXEMPLO_HASH_SUBSTITUA'; 
-
-app.post('/login', (req, res) => {
+// 🔑 Endpoint de login
+app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  // Usuário e senha fixos para o trabalho
-  const VALID_USER = 'Osgiliath';
-  const VALID_PASS = 'Saruman!Faramir?';
+  if (!username || !password) {
+    return res.status(400).json({ ok: false, msg: "Campos obrigatórios vazios." });
+  }
 
-  if (username === VALID_USER && password === VALID_PASS) {
-    return res.json({ ok: true, msg: 'Bem-vindo, Osgiliath!' });
+  const hashed = hashPassword(password);
+
+  if (
+    username.trim().toLowerCase() === EXPECTED_USER &&
+    hashed === EXPECTED_PASS_HASH
+  ) {
+    console.log(`✅ Login bem-sucedido de ${username}`);
+    return res.json({ ok: true, msg: "Bem-vindo à Terra Média!" });
   } else {
-    return res.status(401).json({ ok: false, msg: 'Usuário ou senha incorretos.' });
+    console.log(`❌ Tentativa de login falhou: ${username}`);
+    return res.status(401).json({ ok: false, msg: "Usuário ou senha incorretos." });
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Auth server rodando na porta ${PORT}`));
+// 🚀 Inicialização
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Servidor rodando na porta ${PORT}`)
+);
