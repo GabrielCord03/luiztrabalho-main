@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* LOTR-inspired color palette */
+    --background: 35 25% 12%;
+    --foreground: 40 20% 92%;
+
+    --card: 30 20% 16%;
+    --card-foreground: 40 20% 92%;
+
+    --popover: 30 20% 16%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 40 85% 60%;
+    --primary-foreground: 30 20% 10%;
+
+    --secondary: 150 30% 35%;
+    --secondary-foreground: 40 20% 92%;
+
+    --muted: 30 15% 25%;
+    --muted-foreground: 40 10% 65%;
+
+    --accent: 35 70% 50%;
+    --accent-foreground: 30 20% 10%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 40 20% 92%;
+
+    --border: 30 20% 25%;
+    --input: 30 20% 20%;
+    --ring: 40 85% 60%;
+
+    --radius: 0.75rem;
+
+    /* Custom LOTR tokens */
+    --gold: 40 85% 60%;
+    --gold-dark: 38 75% 45%;
+    --forest: 150 30% 35%;
+    --forest-light: 150 25% 45%;
+    --parchment: 40 30% 85%;
+    --stone: 30 10% 30%;
+    --shadow: 0 0% 0%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(35 25% 12%) 0%, hsl(30 20% 16%) 50%, hsl(35 25% 12%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(38 75% 45%) 0%, hsl(40 85% 60%) 50%, hsl(42 90% 70%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(30 20% 16%) 0%, hsl(30 15% 14%) 100%);
+    
+    /* Shadows */
+    --shadow-gold: 0 0 20px hsl(40 85% 60% / 0.3);
+    --shadow-elevated: 0 10px 40px hsl(0 0% 0% / 0.5);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.4);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
