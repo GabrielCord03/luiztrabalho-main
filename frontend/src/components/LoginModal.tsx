@@ -35,7 +35,7 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
     setLoading(true);
     try {
       // 🔗 URL DO BACKEND (troque depois pelo seu link Render)
-      const response = await fetch("https://luiztrabalho-main.onrender.com", {
+      const response = await fetch("https://luiztrabalho-main.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
