@@ -33,7 +33,7 @@ const Index = () => {
             />
             <BlogCard
               title="Curiosidades e bastidores"
-              description="Página em construção..."
+              description="Alguns fatos interessantes sobre a criação do universo de Tolkien."
               href="/curiosidades"
             />
           </div>
@@ -84,7 +84,7 @@ const Index = () => {
               size="sm"
               className="opacity-20 hover:opacity-100 transition-opacity duration-300 text-primary"
             >
-              ...
+              dicas
             </Button>
           </Link>
         </div>

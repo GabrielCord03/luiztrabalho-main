@@ -34,7 +34,15 @@ const Mitologia = () => {
     {
       title: "O Destino de Arda e a Última Música",
       content: "Nos escritos finais de Tolkien, o mundo — Arda — ainda não está completo. Ferido pelas guerras e pela corrupção de Morgoth e Sauron, ele aguarda a cura prometida no fim das eras: o Dagor Dagorath, a Última Batalha.\n\nNesse confronto, Morgoth retornará, mas será finalmente derrotado. Então, Eru Ilúvatar entoará uma nova canção, recriando o mundo sem dor nem sombra. Essa profecia, chamada Última Música, encerra toda a mitologia com um renascimento — a harmonia restaurada e o eterno recomeço da luz."
-    }
+    },
+    {
+      title: "A Cidade Dividida pela Luz",
+      content: "Entre as margens do grande rio, existiu uma cidade onde o sol e a lua se refletiam lado a lado. Ali, o brilho das estrelas era tão intenso que parecia fundir o dia e a noite. Alguns escritos antigos dizem que seus habitantes chamavam-na pelo nome que unia força e hospitalidade celeste — mas esse nome se perdeu entre as águas."
+    },
+    {
+      title: "O Cântico das Estrelas",
+      content: "Dizem que, nas primeiras eras, uma torre foi erguida para contemplar as constelações que guiavam os reis. Sua melodia silente ecoava o nome dos 'hóspedes das estrelas'. Aqueles que buscam o verdadeiro significado da fortaleza celeste devem ouvir com atenção o que brilha e o que se reflete."
+    },
   ];
 
   return (

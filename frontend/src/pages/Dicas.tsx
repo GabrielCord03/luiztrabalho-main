@@ -5,20 +5,31 @@ import { Sparkles } from "lucide-react";
 const Dicas = () => {
   const hints = [
     {
-      title: "Entre as Pedras",
+      title: "Eco nas sombras",
       content:
-        "Nem toda ruína está morta — algumas guardam nomes antigos e significados esquecidos.",
+        "Nem todas as respostas estão nas palavras. Às vezes, é a própria imagem que sussurra segredos.",
     },
     {
-      title: "O Rio que Divide",
+      title: "A Cidade Dividida por um Rio",
       content:
-        "Procure onde as águas separam o passado do presente. As margens escondem memórias.",
+        "Alguns relatos falam de uma antiga capital dividida por um rio , onde as águas separam o passado do presente. As margens escondem segredos.",
     },
     {
-      title: "Luz e Escuridão",
-      content:
-        "O Sol e a Lua têm suas torres. E em meio a elas, nasceu a cidade das estrelas.",
+      title: "Os Nomes Antigos",
+      content: "Há uma antiga lenda sobre uma cidade cujo nome signica 'forte' e 'hóspedes das estrelas'. Dizem que, ao desvendar esse enigma, o passado volta a brilhar sob as águas do grande rio."
     },
+    {
+      title: "O Cântico das Estrelas",
+      content: "Entre as páginas mais antigas, há uma história que fala de um cântico celeste. Seus versos mencionam aqueles que vieram do alto — os chamados hóspedes das estrelas. Talvez o segredo esteja em ouvir novamente essa melodia esquecida."
+    },
+    {
+      title: "O Guardião das Ruínas",
+      content: "Faramir defendeu uma cidade condenada, resistindo à tentação de poder. Seu feito ecoa entre muralhas partidas e rios antigos. Dizem que aquele que lembrar sua história descobrirá o nome da fortaleza dos hóspedes das estrelas."
+    },
+    {
+      title: "A Cidade Perdida da Terra Média",
+      content: "Falam de uma cidade esquecida, tomada pelo tempo e pelas águas. Dizem que já brilhou como um espelho entre as estrelas — mas agora, apenas quem revisita as histórias antigas pode recordar seu verdadeiro nome."
+    }
   ];
 
   const riddles = [
@@ -46,6 +57,17 @@ const Dicas = () => {
       </div>
 
       {/* 🪶 DICAS */}
+      {/* 🏛️ SEÇÃO: O NOME PERDIDO */}
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-gold animate-pulse">
+          O Nome Perdido
+        </h2>
+        <p className="text-muted-foreground mt-2 italic">
+          Entre ruínas e estrelas, um antigo nome aguarda ser lembrado.
+        </p>
+      </div>
+
+      {/* Cards das Dicas do Usuário */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         {hints.map((hint, index) => (
           <Card
@@ -57,14 +79,11 @@ const Dicas = () => {
                 {hint.title}
               </CardTitle>
             </CardHeader>
-
             <CardContent className="relative z-10 text-center">
               <p className="text-foreground group-hover:drop-shadow-[0_0_8px_#FFD700] transition-all duration-700 ease-out">
                 {hint.content}
               </p>
             </CardContent>
-
-            {/* Fundo mágico */}
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-yellow-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
           </Card>
         ))}
@@ -107,7 +126,7 @@ const Dicas = () => {
       </div>
 
       {/* 🔮 TEXTO SECRETO (invisível até hover) */}
-      <div className="fixed bottom-4 right-6 group cursor-pointer select-none max-w-sm">
+      <div className="fixed bottom-4 left-6 group cursor-pointer select-none max-w-sm">
         <p
           className="
             text-sm
