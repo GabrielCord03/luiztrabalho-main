@@ -4,13 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const Feitos = () => {
   const feats = [
     {
+      character: "Sauron, o Senhor do Escuro",
+      achievements: [
+        { title: "Forjar o Um Anel", description: "Criou o artefato supremo, sua maior e mais terrível criação, capaz de dominar todos os outros anéis de poder." },
+        { title: "Corromper os Reis dos Homens", description: "Ofereceu os anéis de poder aos homens, transformando-os nos Espectros do Anel, servos eternos da escuridão." },
+        { title: "Erguer Barad-dûr", description: "Construiu a Torre Negra em Mordor, símbolo de vigilância e dominação sobre toda a Terra Média." },
+        { title: "Espalhar o Medo", description: "Fez sua sombra alcançar todos os reinos, levando o desespero e a dúvida mesmo aos corações mais puros." }
+      ]
+    },
+    {
       character: "Saruman, o Branco",
       achievements: [
-        { title: "Corromper Isengard", description: "Transformou o centro de sabedoria em fortaleza industrial, forjando exércitos e devastando florestas." },
-        { title: "Criar os Uruk-hai", description: "Deu origem a uma nova raça de guerreiros leais e poderosos." },
-        { title: "Trair os Istari", description: "O mago-chefe se voltou às sombras, acreditando que Sauron venceria." },
-        { title: "Manipular Théoden", description: "Usou Gríma para corromper o rei de Rohan." },
-        { title: "Atacar Rohan em Duas Frentes", description: "Estratégia militar que quase destruiu o reino dos cavaleiros." }
+        { title: "Corromper Isengard", description: "Transformou o centro de sabedoria em fortaleza industrial, forjando exércitos e devastando florestas!" },
+        { title: "Criar os Uruk-hai", description: "Deu origem a uma nova raça de guerreiros leais e poderosos!" },
+        { title: "A Queda do Branco", description: "Por eras, foi o líder dos Istari e o mais sábio entre os magos. Mas o desejo de compreender o poder o fez ultrapassar o limite entre o estudo e a ambição. Em busca de controlar aquilo que deveria vigiar, aproximou-se das sombras e voltou-se contra a Terra Média!"  },
+        { title: "Manipular Théoden", description: "Usou Gríma para corromper o rei de Rohan!" },
+        { title: "Atacar Rohan em Duas Frentes", description: "Estratégia militar que quase destruiu o reino dos cavaleiros!" }
       ]
     },
     {
@@ -23,8 +32,8 @@ const Feitos = () => {
     {
       character: "Faramir",
       achievements: [
-        { title: "Defender Osgiliath", description: "Protegeu a cidade condenada e recuou com honra e estratégia." },
-        { title: "Resistir ao Anel", description: "Enfrentou a tentação e escolheu a sabedoria, superando Boromir em coragem moral." }
+        { title: "Defender Osgiliath", description: "Protegeu a cidade condenada e recuou com honra e estratégia?" },
+        { title: "Resistir ao Anel", description: "Enfrentou a tentação e escolheu a sabedoria, superando Boromir em coragem moral?" }
       ]
     },
     {
