@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,44 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
+  const [cooldown, setCooldown] = useState<number | null>(null);
+  const [attempts, setAttempts] = useState<number>(0);
   const { toast } = useToast();
+
+  const MAX_ATTEMPTS = 5;
+  const COOLDOWN_SECONDS = 60;
+  const STORAGE_KEY = "terramedia_login_cooldown";
+
+  // 🔁 Carrega cooldown salvo ao abrir
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const endTime = parseInt(saved, 10);
+      const now = Date.now();
+      if (now < endTime) {
+        setCooldown(Math.ceil((endTime - now) / 1000));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
+
+  // 🕒 Atualiza o contador
+  useEffect(() => {
+    if (cooldown === null) return;
+    if (cooldown <= 0) {
+      setCooldown(null);
+      localStorage.removeItem(STORAGE_KEY);
+      setAttempts(0);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCooldown((prev) => (prev ? prev - 1 : null));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [cooldown]);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -34,6 +71,7 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
     }
 
     setLoading(true);
+
     try {
       const response = await fetch("https://luiztrabalho-main.onrender.com/login", {
         method: "POST",
@@ -44,17 +82,35 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
       const data = await response.json();
 
       if (data.ok) {
-        setSuccessOpen(true); // Abre o modal de sucesso
-        onOpenChange(false); // Fecha o de login
-
-        // Fecha automaticamente após 3 segundos
+        setSuccessOpen(true);
+        onOpenChange(false);
         setTimeout(() => setSuccessOpen(false), 3000);
+        setAttempts(0);
+        localStorage.removeItem(STORAGE_KEY);
       } else {
-        toast({
-          title: "❌ Falha no login",
-          description: data.msg || "Usuário ou senha incorretos.",
-          variant: "destructive",
-        });
+        const newAttempts = attempts + 1;
+        setAttempts(newAttempts);
+
+        if (newAttempts >= MAX_ATTEMPTS) {
+          const endTime = Date.now() + COOLDOWN_SECONDS * 1000;
+          localStorage.setItem(STORAGE_KEY, endTime.toString());
+          setCooldown(COOLDOWN_SECONDS);
+          setAttempts(0);
+
+          toast({
+            title: "⏳ Espere um pouco...",
+            description: `Muitas tentativas incorretas. Aguarde ${COOLDOWN_SECONDS}s.`,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "❌ Falha no login",
+            description: `Usuário ou senha incorretos. Tentativas restantes: ${
+              MAX_ATTEMPTS - newAttempts
+            }.`,
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
       toast({
@@ -85,36 +141,57 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-foreground">Usuário</Label>
+              <Label htmlFor="username" className="text-foreground">
+                Usuário
+              </Label>
               <Input
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Digite seu usuário"
-                disabled={loading}
-                className="bg-input border-border focus:border-primary"
+                disabled={loading || cooldown !== null}
+                className={`bg-input border-border focus:border-primary transition-opacity duration-300 ${
+                  cooldown !== null ? "opacity-60 cursor-not-allowed" : ""
+                }`}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground">Senha</Label>
+              <Label htmlFor="password" className="text-foreground">
+                Senha
+              </Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Digite sua senha"
-                disabled={loading}
-                className="bg-input border-border focus:border-primary"
+                disabled={loading || cooldown !== null}
+                className={`bg-input border-border focus:border-primary transition-opacity duration-300 ${
+                  cooldown !== null ? "opacity-60 cursor-not-allowed" : ""
+                }`}
               />
             </div>
 
+            {/* 🕓 Contador do cooldown */}
+            {cooldown !== null && (
+              <p className="text-center text-yellow-500 font-semibold text-lg animate-pulse">
+                Espere {cooldown}s para tentar novamente...
+              </p>
+            )}
+
             <Button
               onClick={handleLogin}
-              disabled={loading}
-              className="w-full bg-gradient-gold text-primary-foreground hover:shadow-gold transition-all duration-300"
+              disabled={loading || cooldown !== null}
+              className={`w-full bg-gradient-gold text-primary-foreground hover:shadow-gold transition-all duration-300 ${
+                cooldown !== null ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             >
-              {loading ? "Verificando..." : "Entrar"}
+              {cooldown !== null
+                ? "Bloqueado"
+                : loading
+                ? "Verificando..."
+                : "Entrar"}
             </Button>
           </div>
         </DialogContent>
